@@ -11,20 +11,12 @@
     </p>
 
     <div class="row text-center">
-        <form action="api/users" method = "POST" enctype = "multipart/form-data">
+        <form action="prereg" method = "POST" enctype = "multipart/form-data">
             <fieldset>
                 <legend>Sign Up.</legend>
                 Name: <input type="text" name="username"><br>
-                Email: <input type="text" name="email"><br>
+                Email: <input type="email" name="email"><br>
                 <button class="btn btn-primary" id="sendButton">submit</button>
-
-                <!-- 
-                <legend>Choose the Image, which the Mosaic will be based from.</legend>
-                <input type="checkbox" name="dither">Put the Image through a dither filter.</br>
-                <input type="checkbox" name="grayscale">Put the Image through a grayscale filter.</br>
-                <input class="btn btn-primary" type = "file" name = "image" accept=".jpg"/>
-                <button class="btn btn-primary" id="sendButton">START</button>
-                -->
             </fieldset>
         </form>
     </div>

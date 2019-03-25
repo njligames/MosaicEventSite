@@ -8,7 +8,8 @@ app = Flask(__name__)
 Bootstrap(app)
 
 app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy dog'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/pre-registration'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 # extensions
@@ -26,33 +27,32 @@ class User(db.Model):
     username = db.Column(db.String(32), index=True)
     email = db.Column(db.String(32), index=True)
 
-    # password_hash = db.Column(db.String(64))
+    def __init__(self, email):
+        self.email = email
+        self.username = "anon"
 
-    # def hash_password(self, password):
-    #     self.password_hash = pwd_context.encrypt(password)
-
-    # def verify_password(self, password):
-    #     return pwd_context.verify(password, self.password_hash)
-
-    # def generate_auth_token(self, expiration=600):
-    #     s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
-    #     return s.dumps({'id': self.id})
-
-    # @staticmethod
-    # def verify_auth_token(token):
-    #     s = Serializer(app.config['SECRET_KEY'])
-    #     try:
-    #         data = s.loads(token)
-    #     except SignatureExpired:
-    #         return None    # valid token, but expired
-    #     except BadSignature:
-    #         return None    # invalid token
-    #     user = User.query.get(data['id'])
-    #     return user
+    def __repr__(self):
+        return '<E-mail %r>' % self.email
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+# Save e-mail to database and send to success page
+@app.route('/prereg', methods=['POST'])
+def prereg():
+    email = None
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        # Check that email does not already exist (not a great query, but works)
+        if not db.session.query(User).filter(User.email == email).count():
+            reg = User(username=username, email=email)
+            db.session.add(reg)
+            db.session.commit()
+            return render_template('thankyou.html')
+    return render_template('index.html')
+
 
 @app.route('/api/users', methods=['POST', 'GET'])
 def signup():
