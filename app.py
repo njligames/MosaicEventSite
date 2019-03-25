@@ -1,6 +1,7 @@
 from flask_bootstrap import Bootstrap
 from flask import Flask, render_template, request, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 # initialization
 app = Flask(__name__)
