@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="row text-center">
+    <h1>Mosaic creator</h1>
+    <p>
+    The mosaic creator will create a mosaic based on an image you upload, from images you upload.
+    </p>
+
+    <div class="row text-center">
+        <!--
+        <form action="api/users" method = "POST" enctype = "multipart/form-data">
+            <fieldset>
+                <legend>Sign Up.</legend>
+                Name: <input type="text" name="username"><br>
+                Email: <input type="text" name="email"><br>
+                <button class="btn btn-primary" id="sendButton">submit</button>
+
+            </fieldset>
+        </form>
+        -->
+    </div>
+</div>
+{% endblock %}
+
